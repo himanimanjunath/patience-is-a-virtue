@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!--makes the page work on mobile-->
+  <title>patience is a virtue</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: lightgray;
+      display: flex;
+      flex-direction: column; /*elements stacked vertically*/
+      justify-content: center; /*vertically*/
+      align-items: center; /*horizontally*/
+      height: 100vh;
+      font-family: sans-serif;
+    }
+
+    #loadingContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      top: -10vh; /*moved content slightly up*/
+      text-align: center;
+    }
+
+    /*the main text*/
+    #loadingText {
+        font-size: 1.7rem;
+    }
+
+    .spinner {
+      margin-top: 20px;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 0, 0, 0.1); /*light gray border*/
+      border-top: 4px solid lightgray; /*spinning top edge is highlighted*/
+      border-radius: 50%;/*to make it circular*/
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="loadingContainer">
+    <div id="loadingText">Loading, please wait</div>
+    <div class="spinner" id="spinner"></div>
+  </div>
+
+  <script>
+    //for faster testing (ultra impatient)
+    const TEST_MODE = false;
+
+    //5 sec in test and 2 min in real
+    const STEP_DELAY = TEST_MODE ? 5000 : 2 * 60000;
+
+    //1 sec in test and 2 min in real
+    //const MINUTE = TEST_MODE ? 1000 : 60000;
+
+    //2 mins between each msg
+    //const STEP_DELAY = 2 * MINUTE;
+
+    const messages = [
+    { delay: STEP_DELAY, text: "This is taking a bit longer than planned. Stand by, please." },
+    { delay: STEP_DELAY, text: "So… how was your day so far?" },
+    { delay: STEP_DELAY, text: "We really apologize, this is seriously taking much longer than usual." },
+    { delay: STEP_DELAY, text: "Thank you for your patience." },
+    { delay: STEP_DELAY, text: "You’re still here?" },
+    { delay: STEP_DELAY, text: "You seriously have nothing better to do?" },
+    { delay: STEP_DELAY, text: "Well, we admire your patience." },
+    { delay: STEP_DELAY, text: "No, really." },
+    { delay: STEP_DELAY, text: "As they say, ‘patience is a virtue’." },
+    { delay: STEP_DELAY, text: "You know that you’ve been staring at this page for 20 minutes, right?" },
+    { delay: STEP_DELAY, text: "That’s not freaking you out?" },
+    { delay: STEP_DELAY, text: "No? Well, in that case…" }
+    ];
+
+    //gettingn HTML elems by ID
+    const loadingText = document.getElementById("loadingText");
+   // const spinner = document.getElementById("spinner");
+    const loadingContainer = document.getElementById("loadingContainer");
+
+    let totalDelay = 0; //total time tracking
+
+    //for each msg to appear at right time
+    for (const msg of messages) {
+      totalDelay += msg.delay;
+      setTimeout(() => {
+        loadingText.textContent = msg.text;
+      }, totalDelay);
+    }
+
+    //after last message - another 3 mins and redirect
+    const redirectDelay = totalDelay + STEP_DELAY;
+    setTimeout(() => {
+      window.location.href = "https://24.media.tumblr.com/tumblr_m5jhpwrqmx1qii6tmo1_250.gif";
+    }, redirectDelay);
+  </script>
+</body>
+</html>
